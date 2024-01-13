@@ -23,8 +23,8 @@ export default function CourseList(level) {
 
   const getCourses = () => {
     getCourseList(level).then((res) => {
-      console.log("level--", level);
-      console.log("res--", res);
+      // console.log("level--", level);
+      // console.log("res--", res);
       setCourseList(res?.courses);
     });
   };

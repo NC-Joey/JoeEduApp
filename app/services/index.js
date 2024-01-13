@@ -5,7 +5,7 @@ const MASTER_URL =
 
 export const getCourseList = async (level) => {
   //level = "Basic";
-  console.log("level123", level.level);
+  // console.log("level123", level.level);
   const query =
     gql`
     query CourseList {
@@ -22,11 +22,25 @@ export const getCourseList = async (level) => {
         icon {
           url
         }
+        description {
+          markdown
+        }
         banner {
           url
         }
         chapters {
+          title
           id
+          chapterContent {
+            heading
+            description {
+              markdown
+            }
+            output {
+              markdown
+            }
+          }
+          
         }
       }
     }
