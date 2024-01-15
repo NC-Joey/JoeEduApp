@@ -50,3 +50,38 @@ export const getCourseList = async (level) => {
 
   return result;
 };
+
+export const enrollCourse = async (courseId, userEmail) => {
+  console.log("courseId", courseId);
+  console.log("userEmail", userEmail);
+  const mutationQuery =
+    gql`
+    mutation MyMutation {
+      createUserEnrolledCourse(
+        data: {
+          courseId: "` +
+    courseId +
+    `"
+          userEmail: "` +
+    userEmail +
+    `"
+          course: { connect: { id: "` +
+    courseId +
+    `" } }
+        }
+      ) {
+        id
+      }
+      publishManyUserEnrolledCoursesConnection(to: PUBLISHED) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, mutationQuery);
+
+  return result;
+};

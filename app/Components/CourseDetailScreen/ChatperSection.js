@@ -5,7 +5,7 @@ import Colors from "../../shared/Colors";
 
 export default function ChatperSection(props) {
   useEffect(() => {
-    console.log(" chapterList", props.chapters);
+    // console.log(" chapterList", props.chapters);
   }, [props.chapters]);
 
   return (
@@ -23,6 +23,7 @@ export default function ChatperSection(props) {
         </Text>
         {props.chapters.map((item, index) => (
           <View
+            key={index} // Add this line to assign a unique key
             style={{
               display: "flex",
               flexDirection: "row",

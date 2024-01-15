@@ -11,7 +11,7 @@ import Colors from "../../shared/Colors";
 import OptionItem from "./OptionItem";
 import { useFonts } from "expo-font";
 
-export default function DetailSection(course) {
+export default function DetailSection(course, enrollCourse) {
   const [fontsLoaded] = useFonts({
     "outfit-normal": require("./../../assets/fonts/Outfit-Regular.ttf"),
     "outfit-bold": require("./../../assets/fonts/Outfit-Bold.ttf"),
@@ -19,7 +19,7 @@ export default function DetailSection(course) {
   });
 
   useEffect(() => {
-    // console.log(" course", course.course);
+    console.log(" course", course.enrollCourse());
   }, [course.course]);
   return (
     <View
@@ -86,6 +86,7 @@ export default function DetailSection(course) {
           }}
         >
           <TouchableOpacity
+            onPress={() => course.enrollCourse()}
             style={{
               padding: 15,
               backgroundColor: Colors.main,
