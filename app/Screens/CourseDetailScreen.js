@@ -4,6 +4,7 @@ import {
   Touchable,
   TouchableOpacity,
   ScrollView,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -35,7 +36,7 @@ export default function CourseDetailScreen() {
     enrollCourse(params.course.id, user.primaryEmailAddress.emailAddress).then(
       (resp) => {
         if (resp) {
-          ToastAndroid.show("Request sent successfully!", ToastAndroid.SHORT);
+          ToastAndroid.show("Course Enrolled successfully!", ToastAndroid.LONG);
           GetUserEnrolledCourse();
         }
       }
@@ -68,7 +69,10 @@ export default function CourseDetailScreen() {
           UserEnrolledCourse={UserEnrolledCourse}
           enrollCourse={() => UserEnrollCourse()}
         />
-        <ChatperSection chapters={params.course.chapters} />
+        <ChatperSection
+          chapters={params.course.chapters}
+          UserEnrolledCourse={UserEnrolledCourse}
+        />
       </ScrollView>
     )
   );

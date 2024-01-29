@@ -1,12 +1,24 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, ToastAndroid } from "react-native";
 import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../shared/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ChatperSection(props) {
   useEffect(() => {
     // console.log(" chapterList", props.chapters);
   }, [props.chapters]);
+
+  const navigation = useNavigation();
+
+  const OnChapterPress = (content) => {
+    if (props.UserEnrolledCourse == 0) {
+      ToastAndroid.show("Please Enroll Course!", ToastAndroid.LONG);
+      return;
+    } else {
+      navigation.navigate("chapter-content", { content: content });
+    }
+  };
 
   return (
     props.chapters && (
@@ -22,7 +34,7 @@ export default function ChatperSection(props) {
           Chapters
         </Text>
         {props.chapters.map((item, index) => (
-          <View
+          <TouchableOpacity
             key={index} // Add this line to assign a unique key
             style={{
               display: "flex",
@@ -35,6 +47,7 @@ export default function ChatperSection(props) {
               marginTop: 10,
               borderColor: Colors.gray,
             }}
+            onPress={() => OnChapterPress(item)}
           >
             <View
               style={{
@@ -63,8 +76,13 @@ export default function ChatperSection(props) {
                 {item.title}
               </Text>
             </View>
-            <Ionicons name="md-lock-closed" size={25} color={Colors.gray} />
-          </View>
+
+            {props.UserEnrolledCourse == 0 ? (
+              <Ionicons name="md-lock-closed" size={25} color={Colors.gray} />
+            ) : (
+              <Ionicons name="play" size={25} color={Colors.gray} />
+            )}
+          </TouchableOpacity>
         ))}
       </View>
     )
