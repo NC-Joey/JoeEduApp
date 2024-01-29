@@ -52,8 +52,8 @@ export const getCourseList = async (level) => {
 };
 
 export const enrollCourse = async (courseId, userEmail) => {
-  console.log("courseId", courseId);
-  console.log("userEmail", userEmail);
+  //console.log("courseId", courseId);
+  //console.log("userEmail", userEmail);
   const mutationQuery =
     gql`
     mutation MyMutation {
@@ -87,8 +87,8 @@ export const enrollCourse = async (courseId, userEmail) => {
 };
 
 export const getUserEnrolledCourse = async (courseId, userEmail) => {
-  console.log("courseId", courseId);
-  console.log("userEmail", userEmail);
+  //console.log("courseId", courseId);
+  //console.log("userEmail", userEmail);
   const userEnrolledCourseQuery =
     gql`
     query GetUserEnrolledCourse {

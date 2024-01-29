@@ -11,7 +11,11 @@ import Colors from "../../shared/Colors";
 import OptionItem from "./OptionItem";
 import { useFonts } from "expo-font";
 
-export default function DetailSection(course, enrollCourse) {
+export default function DetailSection(
+  course,
+  enrollCourse,
+  UserEnrolledCourse
+) {
   const [fontsLoaded] = useFonts({
     "outfit-normal": require("./../../assets/fonts/Outfit-Regular.ttf"),
     "outfit-bold": require("./../../assets/fonts/Outfit-Bold.ttf"),
@@ -19,7 +23,8 @@ export default function DetailSection(course, enrollCourse) {
   });
 
   useEffect(() => {
-    console.log(" course", course.enrollCourse());
+    console.log(" course", course.enrollCourse);
+    console.log(" course", course.UserEnrolledCourse);
   }, [course.course]);
   return (
     <View
@@ -85,26 +90,28 @@ export default function DetailSection(course, enrollCourse) {
             justifyContent: "space-evenly",
           }}
         >
-          <TouchableOpacity
-            onPress={() => course.enrollCourse()}
-            style={{
-              padding: 15,
-              backgroundColor: Colors.main,
-              borderRadius: 15,
-            }}
-          >
-            <Text
+          {course.UserEnrolledCourse?.length == 0 ? (
+            <TouchableOpacity
+              onPress={() => course.enrollCourse()}
               style={{
-                fontFamily: "outfit-normal",
-                color: Colors.white,
-                textAlign: "center",
-                fontSize: 16,
+                padding: 15,
+                backgroundColor: Colors.main,
+                borderRadius: 15,
               }}
             >
-              {" "}
-              Enroll For Free
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontFamily: "outfit-normal",
+                  color: Colors.white,
+                  textAlign: "center",
+                  fontSize: 16,
+                }}
+              >
+                {" "}
+                Enroll For Free
+              </Text>
+            </TouchableOpacity>
+          ) : null}
           <TouchableOpacity
             style={{
               padding: 15,
