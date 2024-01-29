@@ -85,3 +85,32 @@ export const enrollCourse = async (courseId, userEmail) => {
 
   return result;
 };
+
+export const getUserEnrolledCourse = async (courseId, userEmail) => {
+  console.log("courseId", courseId);
+  console.log("userEmail", userEmail);
+  const userEnrolledCourseQuery =
+    gql`
+    query GetUserEnrolledCourse {
+      userEnrolledCourses(
+        where: {
+          courseId: "` +
+    courseId +
+    `"
+          userEmail: "` +
+    userEmail +
+    `"
+        }
+      ) {
+        id
+        courseId
+        completedChapter {
+          chapterId
+        }
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, userEnrolledCourseQuery);
+
+  return result;
+};

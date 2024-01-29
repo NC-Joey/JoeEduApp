@@ -5,33 +5,51 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../shared/Colors";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import DetailSection from "../Components/CourseDetailScreen/DetailSection";
 import ChatperSection from "../Components/CourseDetailScreen/ChatperSection";
-import { enrollCourse } from "../services";
+import { enrollCourse, getUserEnrolledCourse } from "../services";
 import { useUser } from "@clerk/clerk-expo";
 
 export default function CourseDetailScreen() {
   const navigate = useNavigation();
   const params = useRoute().params;
+  const [UserEnrolledCourse, setUserEnrolledCourse] = useState([]);
   const { user } = useUser();
 
   useEffect(() => {
-    console.log("params.course", params.course.id);
-    console.log("params.course", user.primaryEmailAddress.emailAddress);
+    //console.log("params.course", params.course.id);
+    //console.log("params.course", user.primaryEmailAddress.emailAddress);
     //  UserEnrollCourse();
     // console.log("UserEnrollCourse", UserEnrollCourse());
+
+    if (user && params.course) {
+      GetUserEnrolledCourse();
+    }
   }, [params.course]);
 
   const UserEnrollCourse = () => {
     enrollCourse(params.course.id, user.primaryEmailAddress.emailAddress).then(
       (resp) => {
-        console.log("resp", resp);
+        if (resp) {
+          ToastAndroid.show("Request sent successfully!", ToastAndroid.SHORT);
+          GetUserEnrolledCourse();
+        }
       }
     );
+  };
+
+  const GetUserEnrolledCourse = () => {
+    getUserEnrolledCourse(
+      params.course.id,
+      user.primaryEmailAddress.emailAddress
+    ).then((resp) => {
+      //console.log("resp", resp.userEnrolledCourses);
+      setUserEnrolledCourse(resp.userEnrolledCourses);
+    });
   };
 
   return (
@@ -47,6 +65,7 @@ export default function CourseDetailScreen() {
 
         <DetailSection
           course={params.course}
+          UserEnrolledCourse={UserEnrolledCourse}
           enrollCourse={() => UserEnrollCourse()}
         />
         <ChatperSection chapters={params.course.chapters} />
