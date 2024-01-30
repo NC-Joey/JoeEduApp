@@ -21,6 +21,7 @@ export default function ProgressBar({ contentLenght, contentIndex }) {
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 20,
+        padding: 20,
       }}
     >
       {arraySize.map((item, index) => (
@@ -41,10 +42,3 @@ export default function ProgressBar({ contentLenght, contentIndex }) {
     </View>
   );
 }
-
-const tagsStyles = {
-  body: {
-    fontFamily: "outfit-normal",
-    fontSize: 16,
-  },
-};

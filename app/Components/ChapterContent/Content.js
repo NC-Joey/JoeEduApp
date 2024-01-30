@@ -9,7 +9,7 @@ export default function Content(content) {
   }, []);
 
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ padding: 0 }}>
       <ProgressBar contentLenght={content.content?.length} contentIndex={0} />
       <FlatList
         data={content.content}
@@ -19,19 +19,23 @@ export default function Content(content) {
         renderItem={({ item, index }) => (
           <View
             style={{
-              width: Dimensions.get("screen").width * 0.92,
+              width: Dimensions.get("screen").width,
+              padding: 20,
             }}
           >
             <Text
               style={{
                 fontFamily: "outfit-medium",
                 fontSize: 22,
-                marginTop: 15,
+                marginTop: 5,
               }}
             >
               {item.heading}
             </Text>
-            <ContentItem description={item?.description?.html} />
+            <ContentItem
+              description={item?.description?.html}
+              output={item?.output?.html}
+            />
           </View>
         )}
       />
