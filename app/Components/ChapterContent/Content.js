@@ -1,26 +1,55 @@
-import { View, Text, FlatList, Dimensions } from "react-native";
-import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import ProgressBar from "./ProgressBar";
 import ContentItem from "./ContentItem";
+import Colors from "../../shared/Colors";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Content(content) {
+export default function Content(content, onChapterFinish) {
   useEffect(() => {
-    //console.log(" content --resp", content.content);
+    console.log(" contentRef", content);
   }, []);
 
+  let contentRef;
+  const navigation = useNavigation();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onNextBtnPress = (index) => {
+    if (content.content?.length <= index + 1) {
+      content.onChapterFinish();
+      //navigation.goBack();
+      return;
+    }
+    setActiveIndex(index + 1);
+    contentRef.scrollToIndex({ animated: true, index: index + 1 });
+  };
+
   return (
-    <View style={{ padding: 0 }}>
-      <ProgressBar contentLenght={content.content?.length} contentIndex={0} />
+    <View style={{ padding: 0, height: "100%" }}>
+      <ProgressBar
+        contentLenght={content.content?.length}
+        contentIndex={activeIndex}
+      />
       <FlatList
         data={content.content}
         horizontal={true}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        ref={(ref) => {
+          contentRef = ref;
+        }}
         renderItem={({ item, index }) => (
-          <View
+          <ScrollView
             style={{
               width: Dimensions.get("screen").width,
               padding: 20,
+              marginBottom: 40,
             }}
           >
             <Text
@@ -36,7 +65,24 @@ export default function Content(content) {
               description={item?.description?.html}
               output={item?.output?.html}
             />
-          </View>
+            <TouchableOpacity
+              style={{ marginTop: 10 }}
+              onPress={() => onNextBtnPress(index)}
+            >
+              <Text
+                style={{
+                  padding: 15,
+
+                  backgroundColor: Colors.main,
+                  color: Colors.white,
+                  textAlign: "center",
+                  fontFamily: "outfit-normal",
+                }}
+              >
+                {content.content?.length > index + 1 ? "Next" : "Finish"}
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
         )}
       />
     </View>

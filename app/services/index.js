@@ -1,7 +1,9 @@
 import { request, gql } from "graphql-request";
 
 const MASTER_URL =
-  "https://api-ap-southeast-2.hygraph.com/v2/clr9wjxb90wqo01wdk0e46ocq/master";
+  "https://api-ap-southeast-2.hygraph.com/v2/cls51ryrg000008l6hkrk05bu/master";
+// const MASTER_URL =
+//   "https://api-ap-southeast-2.hygraph.com/v2/clr9wjxb90wqo01wdk0e46ocq/master";
 
 export const getCourseList = async (level) => {
   //level = "Basic";
@@ -113,6 +115,63 @@ export const getUserEnrolledCourse = async (courseId, userEmail) => {
     }
   `;
   const result = await request(MASTER_URL, userEnrolledCourseQuery);
+
+  return result;
+};
+export const markChapterCompleted = async (chapterId, recordId) => {
+  //console.log("courseId", courseId);
+  //console.log("userEmail", userEmail);
+  const Query =
+    gql`
+    mutation markChapterCompleted {
+      updateUserEnrolledCourse(
+        data: { completedChapter: { create: { data: { chapterId: "` +
+    chapterId +
+    `" } } } }
+        where: { id: "` +
+    recordId +
+    `" }
+      ) {
+        id
+      }
+      publishManyUserEnrolledCoursesConnection {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, Query);
+
+  return result;
+};
+
+export const CreateNewUser = async (userName, email, profileImageUrl) => {
+  const mutationQuery =
+    gql`
+    mutation CreateNew {
+      updateUserEnrolledCourse(
+        data: { completedChapter: { create: { data: { chapterId: "` +
+    chapterId +
+    `" } } } }
+        where: { id: "` +
+    recordId +
+    `" }
+      ) {
+        id
+      }
+      publishManyUserEnrolledCoursesConnection {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, Query);
 
   return result;
 };

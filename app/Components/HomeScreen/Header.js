@@ -29,7 +29,7 @@ export default function Header() {
               >
                 Welcome,
               </Text>
-              <Text style={styles.mainText}>{user?.fullName}</Text>
+              <Text style={styles.mainText}>{user?.firstName}</Text>
             </View>
           </View>
           <View style={styles.rowStyle}>

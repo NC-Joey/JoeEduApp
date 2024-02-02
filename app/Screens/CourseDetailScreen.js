@@ -6,7 +6,7 @@ import {
   ScrollView,
   ToastAndroid,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../shared/Colors";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -14,10 +14,14 @@ import DetailSection from "../Components/CourseDetailScreen/DetailSection";
 import ChatperSection from "../Components/CourseDetailScreen/ChatperSection";
 import { enrollCourse, getUserEnrolledCourse } from "../services";
 import { useUser } from "@clerk/clerk-expo";
+import { CompleteChapterContext } from "../Context/CompleteChapterContext";
 
 export default function CourseDetailScreen() {
   const navigate = useNavigation();
   const params = useRoute().params;
+  const { isChapterComplete, setIsChapterComplete } = useContext(
+    CompleteChapterContext
+  );
   const [UserEnrolledCourse, setUserEnrolledCourse] = useState([]);
   const { user } = useUser();
 
@@ -31,6 +35,10 @@ export default function CourseDetailScreen() {
       GetUserEnrolledCourse();
     }
   }, [params.course]);
+
+  useEffect(() => {
+    isChapterComplete && GetUserEnrolledCourse();
+  }, [isChapterComplete]);
 
   const UserEnrollCourse = () => {
     enrollCourse(params.course.id, user.primaryEmailAddress.emailAddress).then(
