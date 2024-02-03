@@ -3,18 +3,27 @@ import React, { useEffect, useState } from "react";
 import Colors from "../shared/Colors";
 import Coin from "../assets/images/coin.png";
 import { GetGradePoints, GetUserDetail } from "../services";
-import { useUser } from "@clerk/clerk-expo";
-import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
+import {
+  useUser,
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  useAuth,
+} from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import {} from "@clerk/clerk-expo";
+
+// Inside the ProfileScreen component
 
 export default function ProfileScreen() {
   const [userDetail, setUserDetail] = useState([]);
   const [gradeList, setGradeList] = useState([]);
   const { user } = useUser();
   const navigation = useNavigation();
+  const { signOut } = useAuth(); // Destructure the signOut function from useAuth
 
   useEffect(() => {
     GetUser();
