@@ -53,7 +53,7 @@ export default function ChatperSection(props) {
     // if (resp) {
     //   setUserCompletedCourse(resp);
     // }
-    console.log("-- resp", resp);
+    //console.log("-- resp", resp);
     return resp;
   };
 

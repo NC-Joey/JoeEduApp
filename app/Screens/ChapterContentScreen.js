@@ -15,7 +15,7 @@ export default function ChapterContentScreen() {
   const GetUser = async () => {
     GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
       _userPoint = resp.userDetail?.point;
-      console.log("_userPoint -", param.content?.chapterContent?.length);
+      //console.log("_userPoint -", param.content?.chapterContent?.length);
     });
   };
 
@@ -41,7 +41,7 @@ export default function ChapterContentScreen() {
       navigation.goBack();
       return;
     }
-    console.log("_userPoint --", _userPoint);
+    //console.log("_userPoint --", _userPoint);
 
     const totalPoints = _userPoint + param.content?.chapterContent?.length * 10;
     console.log("totalPoints ---", totalPoints);
@@ -51,7 +51,7 @@ export default function ChapterContentScreen() {
       user.primaryEmailAddress.emailAddress,
       totalPoints
     ).then((resp) => {
-      console.log("-------", resp);
+      // console.log("-------", resp);
       ToastAndroid.show("Course Completed!", ToastAndroid.LONG);
       setIsChapterComplete(true);
       navigation.goBack();

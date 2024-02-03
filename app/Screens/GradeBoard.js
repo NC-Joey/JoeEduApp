@@ -1,15 +1,28 @@
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { GetGradePoints } from "../services";
+import { GetGradePoints, GetUserDetail } from "../services";
 import Colors from "../shared/Colors";
+import { useUser } from "@clerk/clerk-expo";
+import Coin from "../assets/images/coin.png";
 
 export default function GradeBoard() {
   const [gradeList, setGradeList] = useState([]);
+  const [userDetail, setUserDetail] = useState([]);
+  const { user } = useUser();
 
   useEffect(() => {
     GetAllGradePoint();
-    console.log("gradeList", gradeList);
+    GetUser();
+    // console.log("gradeList", gradeList);
+    //console.log("userDetail", userDetail);
   }, []);
+
+  const GetUser = async () => {
+    GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
+      //console.log("resp --------------", resp.userDetail);
+      setUserDetail(resp.userDetail);
+    });
+  };
 
   const GetAllGradePoint = () => {
     GetGradePoints().then((resp) => {
@@ -29,6 +42,12 @@ export default function GradeBoard() {
         >
           Grade Board
         </Text>
+        <View style={styles.rowStyle}>
+          <Image source={Coin} style={{ width: 35, height: 35 }} />
+          <Text style={styles.mainText}>
+            {userDetail?.point} {userDetail?.point < 2 ? "Point" : "Points"}
+          </Text>
+        </View>
       </View>
       <View style={{ marginTop: -40, height: "85%" }}>
         <FlatList
@@ -66,7 +85,11 @@ export default function GradeBoard() {
                   {index + 1}
                 </Text>
                 <Image
-                  source={{ uri: item.profileImage }}
+                  source={
+                    userDetail?.point >= item.minPoint
+                      ? { uri: userDetail?.profileImage }
+                      : { uri: item.profileImage }
+                  }
                   style={{ width: 60, height: 60, borderRadius: 99 }}
                 />
                 <View>
@@ -80,12 +103,16 @@ export default function GradeBoard() {
                       color: Colors.gray,
                     }}
                   >
-                    {item.minPoint} Point
+                    {item.minPoint} {item.minPoint < 2 ? "Point" : "Points"}
                   </Text>
                 </View>
               </View>
               <Image
-                source={{ uri: item?.icon?.url }}
+                source={
+                  userDetail?.point >= item.minPoint
+                    ? { uri: item?.icon?.url }
+                    : null
+                }
                 style={{ width: 40, height: 40 }}
               />
             </View>
@@ -95,3 +122,17 @@ export default function GradeBoard() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  mainText: {
+    color: Colors.white,
+    fontSize: 20,
+    fontFamily: "outfit-normal",
+  },
+  rowStyle: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+  },
+});

@@ -18,11 +18,8 @@ export default function Header() {
 
   var _userPoint = 0;
   useEffect(() => {
-    // console.log(" contentLenght", contentLenght);
-    // console.log(" contentIndex", contentIndex);
     GetUser();
-    // console.log("_userPoint ------", _userPoint);
-  }, [userPoint]);
+  }, []);
 
   const { isLoaded, isSignedIn, user } = useUser();
 
@@ -30,7 +27,6 @@ export default function Header() {
     GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
       _userPoint = resp.userDetail?.point;
       setUserPoints(resp.userDetail?.point);
-      // console.log("_userPoint -", _userPoint);
     });
   };
   return (

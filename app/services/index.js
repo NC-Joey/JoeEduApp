@@ -207,13 +207,16 @@ export const CreateNewUser = async (userName, email, profileImageUrl) => {
 export const GetUserDetail = async (email) => {
   const query =
     gql`
-  query getUserDetails {
-    userDetail(where: {email: "` +
+    query getUserDetails {
+      userDetail(where: {email: "` +
     email +
     `"}) {
-      point
+        profileImage
+        point
+        userName
+        id
+      }
     }
-  }
   `;
   const result = await request(MASTER_URL, query);
 

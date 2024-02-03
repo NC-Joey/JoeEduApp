@@ -32,13 +32,8 @@ export default function HomeScreen() {
 
   const GetUser = async () => {
     GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
-      // console.log("points", resp.userDetail?.point);
-      setUserPoints(resp.userDetail?.point);
-      // console.log(
-      //   "setUserPoints(resp.userDetail?.point)",
-      //   setUserPoints(resp.userDetail?.point)
-      // );
-      // console.log("UserPoints", UserPoints);
+      // console.log("resp ----", resp.userDetail?.point);
+      setUserPoints(resp?.userDetail?.point);
     });
   };
   return (
