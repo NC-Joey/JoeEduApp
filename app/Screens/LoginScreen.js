@@ -49,7 +49,7 @@ export default function LoginScreen() {
           padding: 20,
         }}
       >
-        <Text style={styles.productname}>JOE-LEARN</Text>
+        <Text style={styles.productname}>UniStudy Aid</Text>
         <Text
           style={{
             textAlign: "center",
@@ -58,7 +58,7 @@ export default function LoginScreen() {
             color: Colors.light,
           }}
         >
-          Your Best Online Learning Platform
+          Your Best University Academic Assistant
         </Text>
 
         <TouchableOpacity
