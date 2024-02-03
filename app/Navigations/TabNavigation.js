@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../Screens/HomeScreen";
 import MyCourse from "../Screens/MyCourse";
-import LeaderBoard from "../Screens/LeaderBoard";
+import GradeBoard from "../Screens/GradeBoard";
 import ProfileScreen from "../Screens/ProfileScreen";
 
 // Icons
@@ -34,7 +34,7 @@ function TabNavigation(props) {
       />
       <Tab.Screen
         name="grade-board"
-        component={LeaderBoard}
+        component={GradeBoard}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="leaderboard" size={size} color={color} />

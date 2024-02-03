@@ -219,6 +219,26 @@ export const GetUserDetail = async (email) => {
 
   return result;
 };
+
+export const GetGradePoints = async (email) => {
+  const _gradequery = gql`
+    query GetGradePoints {
+      gradePoints(orderBy: minPoint_DESC) {
+        id
+        profileImage
+        icon {
+          url
+        }
+        name
+        minPoint
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, _gradequery);
+
+  return result;
+};
+
 export const GetAllProgressCourse = async (email) => {
   const query =
     gql`
