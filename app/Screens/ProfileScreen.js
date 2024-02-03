@@ -2,8 +2,9 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import Colors from "../shared/Colors";
 import Coin from "../assets/images/coin.png";
-import { GetUserDetail } from "../services";
-import { useOAuth, useUser } from "@clerk/clerk-expo";
+import { GetGradePoints, GetUserDetail } from "../services";
+import { useUser } from "@clerk/clerk-expo";
+import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -11,19 +12,19 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileScreen() {
   const [userDetail, setUserDetail] = useState([]);
+  const [gradeList, setGradeList] = useState([]);
   const { user } = useUser();
   const navigation = useNavigation();
 
   useEffect(() => {
     GetUser();
+    GetAllGradePoint();
     console.log("userDetail", userDetail);
   }, []);
 
-  const { logout } = useOAuth({ strategy: "oauth_google" });
-
-  const handleLogout = async () => {
+  const handleSignOut = async () => {
     try {
-      await logout();
+      await signOut();
     } catch (error) {
       console.error("Logout error", error);
     }
@@ -32,6 +33,12 @@ export default function ProfileScreen() {
   const GetUser = async () => {
     GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
       setUserDetail(resp.userDetail);
+    });
+  };
+
+  const GetAllGradePoint = () => {
+    GetGradePoints().then((resp) => {
+      resp && setGradeList(resp?.gradePoints);
     });
   };
 
@@ -82,7 +89,18 @@ export default function ProfileScreen() {
             marginTop: 25,
           }}
         >
-          <Image source={Coin} style={{ width: 35, height: 35 }} />
+          <Image
+            source={
+              userDetail?.point >= gradeList[0]?.minPoint
+                ? { uri: gradeList[0]?.profileImage }
+                : userDetail?.point >= gradeList[1]?.minPoint
+                ? { uri: gradeList[1]?.profileImage }
+                : userDetail?.point >= gradeList[2]?.minPoint
+                ? { uri: gradeList[2]?.profileImage }
+                : { uri: gradeList[3]?.profileImage }
+            }
+            style={{ width: 35, height: 35 }}
+          />
           <Text
             style={{
               color: Colors.gray,
@@ -181,9 +199,7 @@ export default function ProfileScreen() {
             flexDirection: "row",
             alignItems: "center",
           }}
-          onPress={() => {
-            signOut();
-          }}
+          onPress={handleSignOut}
         >
           <SimpleLineIcons name="logout" size={25} color={Colors.black} />
           <Text
