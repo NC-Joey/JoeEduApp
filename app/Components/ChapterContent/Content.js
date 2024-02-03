@@ -14,13 +14,15 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Content(content, onChapterFinish) {
   useEffect(() => {
-    console.log(" contentRef", content);
+    // console.log(" contentRef", content);
   }, []);
 
   let contentRef;
   const navigation = useNavigation();
   const [activeIndex, setActiveIndex] = useState(0);
   const onNextBtnPress = (index) => {
+    // console.log("num", index);
+    // console.log("content.content?.length", content.content?.length);
     if (content.content?.length <= index + 1) {
       content.onChapterFinish();
       //navigation.goBack();
@@ -31,7 +33,7 @@ export default function Content(content, onChapterFinish) {
   };
 
   return (
-    <View style={{ padding: 0, height: "100%" }}>
+    <View style={{ padding: 0, height: Dimensions.get("screen").height }}>
       <ProgressBar
         contentLenght={content.content?.length}
         contentIndex={activeIndex}
@@ -50,6 +52,7 @@ export default function Content(content, onChapterFinish) {
               width: Dimensions.get("screen").width,
               padding: 20,
               marginBottom: 40,
+              height: "100%",
             }}
           >
             <Text

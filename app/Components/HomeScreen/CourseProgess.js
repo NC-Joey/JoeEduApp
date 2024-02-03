@@ -13,6 +13,7 @@ export default function CourseProgess() {
   const [progressCousrseList, setprogressCousrseList] = useState();
   useEffect(() => {
     user && GetAllProgressCourseList();
+    console.log("progressCousrseList", progressCousrseList?.length);
   }, [user]);
 
   const GetAllProgressCourseList = () => {
@@ -22,27 +23,29 @@ export default function CourseProgess() {
   };
 
   return (
-    <View>
-      <SubHeading text={"In Progress"} color={Colors.white} />
-      <FlatList
-        data={progressCousrseList}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("course-detail", {
-                course: item.course,
-              })
-            }
-          >
-            <CourseItem
-              item={item.course}
-              completedChapter={item?.completedChapter?.length}
-            />
-          </TouchableOpacity>
-        )}
-      />
-    </View>
+    progressCousrseList?.length > 0 && (
+      <View>
+        <SubHeading text={"In Progress"} color={Colors.white} />
+        <FlatList
+          data={progressCousrseList}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("course-detail", {
+                  course: item.course,
+                })
+              }
+            >
+              <CourseItem
+                item={item.course}
+                completedChapter={item?.completedChapter?.length}
+              />
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    )
   );
 }

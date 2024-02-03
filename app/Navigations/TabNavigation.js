@@ -33,7 +33,7 @@ function TabNavigation(props) {
         }}
       />
       <Tab.Screen
-        name="leader-board"
+        name="grade-board"
         component={LeaderBoard}
         options={{
           tabBarIcon: ({ color, size }) => (

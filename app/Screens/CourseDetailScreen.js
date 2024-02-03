@@ -29,7 +29,7 @@ export default function CourseDetailScreen() {
     //console.log("params.course", params.course.id);
     //console.log("params.course", user.primaryEmailAddress.emailAddress);
     //  UserEnrollCourse();
-    // console.log("UserEnrollCourse", UserEnrollCourse());
+    console.log("isChapterComplete", isChapterComplete);
 
     if (user && params.course) {
       GetUserEnrolledCourse();

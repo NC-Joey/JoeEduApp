@@ -233,6 +233,9 @@ export const GetAllProgressCourse = async (email) => {
           banner {
             url
           }
+          icon {
+            url
+          }
           chapters {
             id
             title

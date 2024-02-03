@@ -1,10 +1,11 @@
 import { View, Text, Image, StyleSheet, TextInput } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-expo";
 import Colors from "../../shared/Colors";
 import { useFonts } from "expo-font";
 import Coin from "../../assets/images/coin.png";
 import { Ionicons } from "@expo/vector-icons";
+import { GetUserDetail } from "../../services";
 
 export default function Header() {
   const [fontsLoaded] = useFonts({
@@ -13,9 +14,28 @@ export default function Header() {
     "outfit-medium": require("./../../assets/fonts/Outfit-SemiBold.ttf"),
   });
 
+  const [userPoint, setUserPoints] = useState(0);
+
+  var _userPoint = 0;
+  useEffect(() => {
+    // console.log(" contentLenght", contentLenght);
+    // console.log(" contentIndex", contentIndex);
+    GetUser();
+    // console.log("_userPoint ------", _userPoint);
+  }, [userPoint]);
+
   const { isLoaded, isSignedIn, user } = useUser();
+
+  const GetUser = async () => {
+    GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
+      _userPoint = resp.userDetail?.point;
+      setUserPoints(resp.userDetail?.point);
+      // console.log("_userPoint -", _userPoint);
+    });
+  };
   return (
-    isLoaded && (
+    isLoaded &&
+    GetUser() && (
       <View>
         <View style={[{ justifyContent: "space-between" }, styles.rowStyle]}>
           <View style={styles.rowStyle}>
@@ -34,7 +54,7 @@ export default function Header() {
           </View>
           <View style={styles.rowStyle}>
             <Image source={Coin} style={{ width: 35, height: 35 }} />
-            <Text style={styles.mainText}>3500</Text>
+            <Text style={styles.mainText}>{userPoint}</Text>
           </View>
         </View>
         <View

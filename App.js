@@ -17,7 +17,7 @@ import { UserPointsContext } from "./app/Context/UserPointsContext";
 
 export default function App() {
   const [isChapterComplete, setIsChapterComplete] = useState(false);
-  const [userPoints, setUserPoints] = useState();
+  const [userPoints, setUserPoints] = useState(0);
   const [fontsLoaded] = useFonts({
     "outfit-normal": require("./app/assets/fonts/Outfit-Regular.ttf"),
     "outfit-bold": require("./app/assets/fonts/Outfit-Bold.ttf"),

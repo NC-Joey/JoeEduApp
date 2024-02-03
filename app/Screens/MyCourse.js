@@ -1,9 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import Colors from "../shared/Colors";
 import { GetAllProgressCourse } from "../services";
 import { useUser } from "@clerk/clerk-expo";
 import { useNavigation } from "@react-navigation/native";
+import CourseItem from "../Components/HomeScreen/CourseItem";
+import CourseProgressItem from "../Components/MyCourse/CourseProgressItem";
 
 export default function MyCourse() {
   const { user } = useUser();
@@ -31,6 +33,26 @@ export default function MyCourse() {
           My Course
         </Text>
       </View>
+      <FlatList
+        data={progressCousrseList}
+        style={{ marginTop: -50 }}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={{ margin: 8, padding: 5 }}
+            onPress={() =>
+              navigation.navigate("course-detail", {
+                course: item.course,
+              })
+            }
+          >
+            <CourseProgressItem
+              item={item.course}
+              completedChapter={item?.completedChapter?.length}
+            />
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }

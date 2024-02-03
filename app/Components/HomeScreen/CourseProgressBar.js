@@ -1,9 +1,14 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Colors from "../../shared/Colors";
 
-export default function CourseProgressBar(totalChapter, completedChapter) {
-  const width = (completedChapter / totalChapter) * 100 + "%";
+export default function CourseProgressBar(params) {
+  const width = (params.completedChapter / params.totalChapter) * 100 + "%";
+
+  useEffect(() => {
+    // console.log(" completedChapter", params.completedChapter);
+    // console.log(" totalChapter", params.totalChapter);
+  }, []);
 
   return (
     <View
