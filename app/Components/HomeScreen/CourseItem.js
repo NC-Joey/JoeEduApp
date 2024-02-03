@@ -2,8 +2,9 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 import Colors from "../../shared/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import CourseProgressBar from "./CourseProgressBar";
 
-export default function CourseItem({ item }) {
+export default function CourseItem({ item, completedChapter }) {
   return (
     <View
       style={{
@@ -58,6 +59,12 @@ export default function CourseItem({ item }) {
           />
         </View>
       </View>
+      {completedChapter != undefined ? (
+        <CourseProgressBar
+          totalChapter={item?.chapters?.length}
+          completedChapter={completedChapter}
+        />
+      ) : null}
     </View>
   );
 }

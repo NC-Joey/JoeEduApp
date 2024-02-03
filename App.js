@@ -13,9 +13,11 @@ import TabNavigation from "./app/Navigations/TabNavigation";
 import { useFonts } from "expo-font";
 import { CompleteChapterContext } from "./app/Context/CompleteChapterContext";
 import { useState } from "react";
+import { UserPointsContext } from "./app/Context/UserPointsContext";
 
 export default function App() {
   const [isChapterComplete, setIsChapterComplete] = useState(false);
+  const [userPoints, setUserPoints] = useState();
   const [fontsLoaded] = useFonts({
     "outfit-normal": require("./app/assets/fonts/Outfit-Regular.ttf"),
     "outfit-bold": require("./app/assets/fonts/Outfit-Bold.ttf"),
@@ -26,20 +28,22 @@ export default function App() {
     <ClerkProvider
       publishableKey={"pk_test_Z2FtZS1maWxseS0zLmNsZXJrLmFjY291bnRzLmRldiQ"}
     >
-      <CompleteChapterContext.Provider
-        value={{ isChapterComplete, setIsChapterComplete }}
-      >
-        <SafeAreaView style={styles.container}>
-          <SignedIn>
-            <NavigationContainer>
-              <TabNavigation />
-            </NavigationContainer>
-          </SignedIn>
-          <SignedOut>
-            <LoginScreen />
-          </SignedOut>
-        </SafeAreaView>
-      </CompleteChapterContext.Provider>
+      <UserPointsContext.Provider value={{ userPoints, setUserPoints }}>
+        <CompleteChapterContext.Provider
+          value={{ isChapterComplete, setIsChapterComplete }}
+        >
+          <SafeAreaView style={styles.container}>
+            <SignedIn>
+              <NavigationContainer>
+                <TabNavigation />
+              </NavigationContainer>
+            </SignedIn>
+            <SignedOut>
+              <LoginScreen />
+            </SignedOut>
+          </SafeAreaView>
+        </CompleteChapterContext.Provider>
+      </UserPointsContext.Provider>
     </ClerkProvider>
   );
 }

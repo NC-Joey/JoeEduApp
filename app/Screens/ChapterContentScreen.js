@@ -4,9 +4,12 @@ import Content from "../Components/ChapterContent/Content";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { markChapterCompleted } from "../services";
 import { CompleteChapterContext } from "../Context/CompleteChapterContext";
+import { useUser } from "@clerk/clerk-expo";
+import { UserPointsContext } from "../Context/UserPointsContext";
 
 export default function ChapterContentScreen() {
   const param = useRoute().params;
+  const { user } = useUser();
 
   useEffect(() => {
     console.log(" param --", param);
@@ -16,6 +19,7 @@ export default function ChapterContentScreen() {
   const { isChapterComplete, setIsChapterComplete } = useContext(
     CompleteChapterContext
   );
+  const { UserPoints, setUserPoints } = useContext(UserPointsContext);
 
   const onChapterFinish = () => {
     const _resp = param.completedChapters.find(
@@ -28,13 +32,17 @@ export default function ChapterContentScreen() {
       return;
     }
 
-    markChapterCompleted(param.chapterId, param.userCourseRecordId).then(
-      (resp) => {
-        ToastAndroid.show("Course Completed!", ToastAndroid.LONG);
-        setIsChapterComplete(true);
-        navigation.goBack();
-      }
-    );
+    const totalPoints = Number(UserPoints) + param.content?.length * 10;
+    markChapterCompleted(
+      param.chapterId,
+      param.userCourseRecordId,
+      user.primaryEmailAddress.emailAddress,
+      totalPoints
+    ).then((resp) => {
+      ToastAndroid.show("Course Completed!", ToastAndroid.LONG);
+      setIsChapterComplete(true);
+      navigation.goBack();
+    });
   };
 
   return (
