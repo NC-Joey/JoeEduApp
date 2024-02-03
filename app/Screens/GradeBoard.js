@@ -4,16 +4,16 @@ import { GetGradePoints } from "../services";
 import Colors from "../shared/Colors";
 
 export default function GradeBoard() {
-  const [userList, setUserList] = useState([]);
+  const [gradeList, setGradeList] = useState([]);
 
   useEffect(() => {
     GetAllGradePoint();
-    console.log("userList", userList);
+    console.log("gradeList", gradeList);
   }, []);
 
   const GetAllGradePoint = () => {
     GetGradePoints().then((resp) => {
-      resp && setUserList(resp?.gradePoints);
+      resp && setGradeList(resp?.gradePoints);
     });
   };
 
@@ -30,9 +30,9 @@ export default function GradeBoard() {
           Grade Board
         </Text>
       </View>
-      <View>
+      <View style={{ marginTop: -40, height: "85%" }}>
         <FlatList
-          data={userList}
+          data={gradeList}
           renderItem={({ item, index }) => (
             <View
               style={{
@@ -40,7 +40,12 @@ export default function GradeBoard() {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: 25,
+                padding: 23,
+                backgroundColor: Colors.white,
+                margin: 8,
+                marginRight: 15,
+                marginLeft: 15,
+                borderRadius: 15,
               }}
             >
               <View
@@ -62,7 +67,7 @@ export default function GradeBoard() {
                 </Text>
                 <Image
                   source={{ uri: item.profileImage }}
-                  style={{ width: 60, height: 60 }}
+                  style={{ width: 60, height: 60, borderRadius: 99 }}
                 />
                 <View>
                   <Text style={{ fontFamily: "outfit-medium", fontSize: 20 }}>
@@ -79,7 +84,10 @@ export default function GradeBoard() {
                   </Text>
                 </View>
               </View>
-              <Image />
+              <Image
+                source={{ uri: item?.icon?.url }}
+                style={{ width: 40, height: 40 }}
+              />
             </View>
           )}
         />
