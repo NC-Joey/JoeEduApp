@@ -11,6 +11,7 @@ import ProgressBar from "./ProgressBar";
 import ContentItem from "./ContentItem";
 import Colors from "../../shared/Colors";
 import { useNavigation } from "@react-navigation/native";
+import ContentItemVideo from "./ContentItemVideo";
 
 export default function Content(content, onChapterFinish) {
   useEffect(() => {
@@ -31,6 +32,11 @@ export default function Content(content, onChapterFinish) {
     setActiveIndex(index + 1);
     contentRef.scrollToIndex({ animated: true, index: index + 1 });
   };
+
+  function hasVideoTags(htmlString) {
+    const regex = /<video[^>]*>[\s\S]*?<\/video>/gi;
+    return regex.test(htmlString);
+  }
 
   return (
     <View style={{ padding: 0, height: Dimensions.get("screen").height }}>
@@ -64,10 +70,18 @@ export default function Content(content, onChapterFinish) {
             >
               {item.heading}
             </Text>
-            <ContentItem
+            {/* <ContentItem
               description={item?.description?.html}
               output={item?.output?.html}
-            />
+            /> */}
+            {!hasVideoTags(item?.description?.html) ? (
+              <ContentItem
+                description={item?.description?.html}
+                output={item?.output?.html}
+              />
+            ) : (
+              <ContentItemVideo description={item?.description?.html} />
+            )}
             <TouchableOpacity
               style={{ marginTop: 10 }}
               onPress={() => onNextBtnPress(index)}

@@ -12,13 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { CompleteChapterContext } from "../../Context/CompleteChapterContext";
 
 export default function ChatperSection(props) {
-  useEffect(() => {
-    // console.log(" chapterList", props.UserEnrolledCourse);
-    // console.log(
-    //   " course",
-    //   props.UserEnrolledCourse[0]?.completedChapter?.length
-    // );
-  }, [props.chapters]);
+  useEffect(() => {}, [props.chapters]);
   // const [UserCompletedCourses, setUserCompletedCourse] = useState([]);
 
   const { isChapterComplete, setIsChapterComplete } = useContext(

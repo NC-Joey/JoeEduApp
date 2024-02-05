@@ -1,10 +1,10 @@
 import {
   View,
   Text,
-  Touchable,
   TouchableOpacity,
   ScrollView,
   ToastAndroid,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,14 +23,10 @@ export default function CourseDetailScreen() {
     CompleteChapterContext
   );
   const [UserEnrolledCourse, setUserEnrolledCourse] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State to track loading status
   const { user } = useUser();
 
   useEffect(() => {
-    //console.log("params.course", params.course.id);
-    //console.log("params.course", user.primaryEmailAddress.emailAddress);
-    //  UserEnrollCourse();
-    console.log("isChapterComplete", isChapterComplete);
-
     if (user && params.course) {
       GetUserEnrolledCourse();
     }
@@ -41,6 +37,7 @@ export default function CourseDetailScreen() {
   }, [isChapterComplete]);
 
   const UserEnrollCourse = () => {
+    setIsLoading(true); // Set loading state to true when enrolling course
     enrollCourse(params.course.id, user.primaryEmailAddress.emailAddress).then(
       (resp) => {
         if (resp) {
@@ -52,36 +49,47 @@ export default function CourseDetailScreen() {
   };
 
   const GetUserEnrolledCourse = () => {
+    setIsLoading(true); // Set loading state to true when fetching enrolled course
     getUserEnrolledCourse(
       params.course.id,
       user.primaryEmailAddress.emailAddress
     ).then((resp) => {
-      //console.log("resp", resp.userEnrolledCourses);
       setUserEnrolledCourse(resp.userEnrolledCourses);
+      setIsLoading(false); // Set loading state to false when course details are fetched
     });
   };
 
   return (
-    params.course && (
-      <ScrollView style={{ padding: 10 }}>
-        <TouchableOpacity onPress={() => navigate.goBack()}>
-          <Ionicons
-            name="ios-arrow-back-circle"
-            size={24}
-            color={Colors.black}
-          />
-        </TouchableOpacity>
+    <View style={{ flex: 1 }}>
+      {isLoading ? ( // Display loader while loading
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          style={{ flex: 1, justifyContent: "center" }}
+        />
+      ) : (
+        params.course && (
+          <ScrollView style={{ padding: 10 }}>
+            <TouchableOpacity onPress={() => navigate.goBack()}>
+              <Ionicons
+                name="ios-arrow-back-circle"
+                size={24}
+                color={Colors.black}
+              />
+            </TouchableOpacity>
 
-        <DetailSection
-          course={params.course}
-          UserEnrolledCourse={UserEnrolledCourse}
-          enrollCourse={() => UserEnrollCourse()}
-        />
-        <ChatperSection
-          chapters={params.course.chapters}
-          UserEnrolledCourse={UserEnrolledCourse}
-        />
-      </ScrollView>
-    )
+            <DetailSection
+              course={params.course}
+              UserEnrolledCourse={UserEnrolledCourse}
+              enrollCourse={() => UserEnrollCourse()}
+            />
+            <ChatperSection
+              chapters={params.course.chapters}
+              UserEnrolledCourse={UserEnrolledCourse}
+            />
+          </ScrollView>
+        )
+      )}
+    </View>
   );
 }
