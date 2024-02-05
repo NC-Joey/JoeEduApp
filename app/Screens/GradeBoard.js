@@ -1,4 +1,11 @@
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { GetGradePoints, GetUserDetail } from "../services";
 import Colors from "../shared/Colors";
@@ -8,18 +15,16 @@ import Coin from "../assets/images/coin.png";
 export default function GradeBoard() {
   const [gradeList, setGradeList] = useState([]);
   const [userDetail, setUserDetail] = useState([]);
+  const [loading, setLoading] = useState(true); // State to manage loading state
   const { user } = useUser();
 
   useEffect(() => {
     GetAllGradePoint();
     GetUser();
-    // console.log("gradeList", gradeList);
-    //console.log("userDetail", userDetail);
   }, []);
 
   const GetUser = async () => {
     GetUserDetail(user.primaryEmailAddress.emailAddress).then((resp) => {
-      //console.log("resp --------------", resp.userDetail);
       setUserDetail(resp.userDetail);
     });
   };
@@ -27,8 +32,17 @@ export default function GradeBoard() {
   const GetAllGradePoint = () => {
     GetGradePoints().then((resp) => {
       resp && setGradeList(resp?.gradePoints);
+      setLoading(false); // Set loading to false when data is fetched
     });
   };
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={Colors.main} />
+      </View>
+    );
+  }
 
   return (
     <View>
