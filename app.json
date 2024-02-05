@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "JoeEduApp",
+    "name": "UniStudyAid",
     "slug": "JoeEduApp",
     "scheme": "joeeduapp",
     "version": "1.0.0",
@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -20,10 +22,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.joseph_nc.JoeEduApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6fa48fa7-69c9-49aa-834f-9e351566bed3"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6fa48fa7-69c9-49aa-834f-9e351566bed3"
     }
   }
 }

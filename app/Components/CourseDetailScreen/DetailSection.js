@@ -112,7 +112,7 @@ export default function DetailSection(
               </Text>
             </TouchableOpacity>
           ) : null}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               padding: 15,
               backgroundColor: Colors.secondary,
@@ -129,7 +129,7 @@ export default function DetailSection(
             >
               Membership $2.99/Month
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
